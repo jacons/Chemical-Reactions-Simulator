@@ -14,12 +14,12 @@ def parser(path: str):  # 'sources/source1.json'
     reactions = []
     for reaction in source["reactions"]:
 
-        reactants = {i["m"]: int(i["l"]) for i in reaction["reactants"]}
-        products = {i["m"]: int(i["l"]) for i in reaction["products"]}
+        reactants = {i["molecule"]: int(i["l"]) for i in reaction["reactants"]}
+        products = {i["molecule"]: int(i["l"]) for i in reaction["products"]}
 
-        r = Reaction(reaction["name"], reactants, products, float(reaction["k"]))
+        r = Reaction(reaction["name"], reactants, products, float(reaction["kinetic"]))
         reactions.append(r)
 
-    initial_state = {item['m']: int(item["q"]) for item in source["state"]}
+    initial_state = {item['molecule']: int(item["qnt"]) for item in source["initial_state"]}
 
     return reactions, initial_state
