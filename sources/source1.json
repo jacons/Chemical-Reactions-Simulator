@@ -1,0 +1,21 @@
+{
+  "reactions": [
+    {
+      "name": "R1",
+      "reactants": [{"element": "A","l": "1"}],
+      "products": [{"element": "B","l": "1"},{"element": "C","l": "1"}],
+      "kinetic" : 2
+    },
+    {
+      "name": "R2",
+      "reactants": [{"element": "B","l": "1"},{"element": "C","l": "1"}],
+      "products": [{"element": "A","l": "1"}],
+      "kinetic" : 0.1
+    }
+  ],
+  "state": [
+    {"element": "A","quantities": 10},
+    {"element": "B","quantities": 5},
+    {"element": "C","quantities": 20}
+  ]
+}
