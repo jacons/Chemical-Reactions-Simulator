@@ -1,32 +1,30 @@
-import json
+import numpy as np
 
 from Gillespie import Gillespie
-from Reaction import Reaction
+from utils import parser
+import matplotlib.pyplot as plt
 
-with open('sources/source1.json') as f:
-    source = json.loads(f.read())
+reactions, init_state = parser(path='sources/source1.json')
 
-reactions = []
-for reaction in source["reactions"]:
-    reactants = {i["element"]: int(i["l"]) for i in reaction["reactants"]}
-    products = {i["element"]: int(i["l"]) for i in reaction["products"]}
+g = Gillespie(reactions, init_state)
 
-    r = Reaction(reaction["name"], reactants, products, float(reaction["kinetic"]))
-    reactions.append(r)
 
-print("Reactions:")
-for r in reactions:
-    print(r.show_reaction())
-print()
-print("State:")
-initial_state = {item['element']: int(item["quantities"]) for item in source["state"]}
+def run():
+    t = 0
+    hist, time = [], []
 
-g = Gillespie(reactions, initial_state)
+    while t < 50:
+        dt = g.step()
+        t += dt
+        time.append(t)
+        hist.append(list(g.state.values()))
 
-hist_a, hist_b, hist_c = [], [], []
-for _ in range(5):
-    g.step()
-    hist_a.append(g.state["A"])
-    hist_b.append(g.state["B"])
-    hist_c.append(g.state["c"])
+    hist = np.array(hist)
+    for idx, m in enumerate(g.state.keys()):
+        plt.plot(time, hist[:, idx], label=m)
+    plt.legend()
+    plt.show()
 
+
+run()
+# print(timeit.timeit("run()", setup="from __main__ import run", number=10)/10)

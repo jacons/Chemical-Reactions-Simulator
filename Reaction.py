@@ -2,10 +2,10 @@ class Reaction:
     def __init__(self, name: str, reactants: dict, products: dict, kinetic: float):
         self.name = name
 
-        self.reactants = reactants
-        self.products = products
+        self.reactants: dict = reactants
+        self.products: dict = products
 
-        self.kinetic = kinetic
+        self.kinetic: float = kinetic
 
     def show_reaction(self) -> str:
         reaction = ""

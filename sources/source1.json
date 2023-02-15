@@ -2,20 +2,27 @@
   "reactions": [
     {
       "name": "R1",
-      "reactants": [{"element": "A","l": "1"}],
-      "products": [{"element": "B","l": "1"},{"element": "C","l": "1"}],
-      "kinetic" : 2
+      "reactants": [{"l": "1","m": "S"},{"l": "1","m": "E"}],
+      "products": [{"l": "1","m": "SE"}],
+      "k" : 0.006
     },
     {
       "name": "R2",
-      "reactants": [{"element": "B","l": "1"},{"element": "C","l": "1"}],
-      "products": [{"element": "A","l": "1"}],
-      "kinetic" : 0.1
+      "reactants": [{"l": "1","m": "SE"}],
+      "products": [{"l": "1","m": "S"},{"l": "1","m": "E"}],
+      "k" : 0.005
+    },
+    {
+      "name": "R3",
+      "reactants": [{"l": "1","m": "SE"}],
+      "products": [{"l": "1","m": "P"},{"l": "1","m": "E"}],
+      "k" : 0.1
     }
   ],
   "state": [
-    {"element": "A","quantities": 10},
-    {"element": "B","quantities": 5},
-    {"element": "C","quantities": 20}
+    {"m": "S" ,"q": 200},
+    {"m": "E" ,"q": 50},
+    {"m": "SE","q": 0},
+    {"m": "P" ,"q": 0}
   ]
 }
