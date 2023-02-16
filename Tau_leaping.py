@@ -1,26 +1,29 @@
 import math
-import random
+from typing import Union
 
-from numpy import zeros, arange
-from numpy.random import choice, poisson
+from numpy import zeros
+from numpy.random import poisson
 
-from StochasticSimulator import StochasticSimulator
+from utils import StochasticAlgorithm
 
 
-class TauLeaping(StochasticSimulator):
+class TauLeaping(StochasticAlgorithm):
     def __init__(self, reactions: list, initial_state: dict, tau: float):
-        self.reactions: list = reactions.copy()
-        self.state: dict = initial_state.copy()
+        super().__init__()
 
-
+        self.reactions: list = reactions
+        self.state: dict = initial_state
 
         self.tau = tau
 
-    def step(self) -> float:
+    def step(self) -> Union[float, None]:
         # perform propensities (instantaneous rate of each reaction)
         n = len(self.reactions)
-        a_0, tot = zeros(n), 0
+        a_0 = zeros(n)
 
+        for v in self.state.values():
+            if v < 0:
+                return None
         # calculate the propensities
         for idx, react in enumerate(self.reactions):
             _a = react.kinetic
@@ -29,7 +32,9 @@ class TauLeaping(StochasticSimulator):
                 _a *= math.comb(self.state[r], l)
 
             a_0[idx] = _a
-            tot += _a
+
+        if a_0.sum() == 0:
+            return None
 
         n_reactions = poisson(a_0 * self.tau)
 
@@ -44,22 +49,4 @@ class TauLeaping(StochasticSimulator):
                 for r, l in react.products.items():
                     self.state[r] += l
 
-        """
-        a_0 /= tot
-
-        # time event occurs
-        tau = math.log(1 / random.uniform(0, 1)) / tot
-
-        # select the reaction to perform
-        react = self.reactions[choice(arange(0, n), p=a_0)]
-
-        # update the state with reaction chosen
-        for r, l in react.reactants.items():
-            self.state[r] -= l
-
-        for r, l in react.products.items():
-            self.state[r] += l
-
-        return tau  # tau
-        """
         return self.tau

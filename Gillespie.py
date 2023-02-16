@@ -1,18 +1,20 @@
 import math
 import random
+from typing import Union
 
 from numpy import zeros, arange
 from numpy.random import choice
 
-from old.StochasticSimulator import StochasticSimulator
+from utils import StochasticAlgorithm
 
 
-class Gillespie(StochasticSimulator):
+class Gillespie(StochasticAlgorithm):
     def __init__(self, reactions: list, initial_state: dict):
+        super().__init__()
         self.reactions: list = reactions
         self.state: dict = initial_state
 
-    def step(self) -> float:
+    def step(self) -> Union[float, None]:
         # perform propensities (instantaneous rate of each reaction)
         n = len(self.reactions)
         a_0, tot = zeros(n), 0
@@ -26,6 +28,9 @@ class Gillespie(StochasticSimulator):
 
             a_0[idx] = _a
             tot += _a
+
+        if tot == 0:
+            return None
 
         a_0 /= tot
 
