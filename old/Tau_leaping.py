@@ -11,6 +11,9 @@ class TauLeaping(StochasticSimulator):
     def __init__(self, reactions: list, initial_state: dict, tau: float):
         self.reactions: list = reactions.copy()
         self.state: dict = initial_state.copy()
+
+
+
         self.tau = tau
 
     def step(self) -> float:

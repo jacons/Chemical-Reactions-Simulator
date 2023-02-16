@@ -1,4 +1,8 @@
 class Reaction:
+    """
+    Class that simulates a chemical reaction, each instance contains the reactants,
+    the products and a kinetic constant.
+    """
     def __init__(self, name: str, reactants: dict, products: dict, kinetic: float):
         self.name = name
 

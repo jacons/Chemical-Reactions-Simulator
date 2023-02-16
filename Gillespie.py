@@ -4,13 +4,13 @@ import random
 from numpy import zeros, arange
 from numpy.random import choice
 
-from StochasticSimulator import StochasticSimulator
+from old.StochasticSimulator import StochasticSimulator
 
 
 class Gillespie(StochasticSimulator):
     def __init__(self, reactions: list, initial_state: dict):
-        self.reactions: list = reactions.copy()
-        self.state: dict = initial_state.copy()
+        self.reactions: list = reactions
+        self.state: dict = initial_state
 
     def step(self) -> float:
         # perform propensities (instantaneous rate of each reaction)
