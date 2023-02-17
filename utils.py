@@ -1,81 +1,47 @@
-import json
-from typing import Tuple, Union
-from numpy import array
-from Reaction import Reaction
 from abc import abstractmethod
+from typing import Union
+
+from numpy import array
 
 
 class StochasticAlgorithm:
-    def __init__(self):
-        self.state = None
 
     @abstractmethod
-    def step(self) -> Union[float, None]:
+    def step(self) -> float:
+        pass
+
+    @abstractmethod
+    def get_state(self):
+        pass
+
+    @abstractmethod
+    def update_molecule(self, molecule: str, qnt: int):
         pass
 
 
-def json_parser(path: str) -> Tuple:  # 'sources/source1.json'
+class Reaction:
     """
-    Takes the path of json file and parse it into:
-    1) list of reactions, list of events and initial state ( number of molecules for each element involved)
-    :param path: path of json file
-    :return:  list of reactions, list of events and initial state
+    Class that simulates a chemical reaction, each instance contains the reactants,
+    the products and a kinetic constant.
     """
-    with open(path) as f:
-        source = json.loads(f.read())
 
-    if source is None:
-        return None, None, None
+    def __init__(self, name: str, reactants: dict, products: dict, kinetic: float):
+        self.name = name
 
-    reactions: list = []
+        self.reactants: dict = reactants
+        self.products: dict = products
 
-    # Parse reactions
-    for reaction in source["reactions"]:
-        # build a dict where key is the name of molecule and v n° molecules involved
-        reactants = {i["molecule"]: int(i["l"]) for i in reaction["reactants"]}
-        products = {i["molecule"]: int(i["l"]) for i in reaction["products"]}
+        self.kinetic: float = kinetic
 
-        r = Reaction(reaction["name"], reactants, products, float(reaction["kinetic"]))
-        reactions.append(r)
+    def show_reaction(self) -> str:
+        reaction = ""
+        for r, l in self.reactants.items():
+            reaction += str(l) + str(r) + " "
+        reaction += " --> "
+        for r, l in self.products.items():
+            reaction += str(l) + str(r) + " "
 
-    # Parse initial state
-    initial_state = {item['molecule']: int(item["qnt"]) for item in source["initial_state"]}
-
-    # Parse events
-    events = [(event["time"], event["molecule"], event["qnt"]) for event in source["events"]]
-    # Observe! we sort the events because it improves the execution (more details belows)
-    events.sort()
-    return reactions, initial_state, events
-
-
-def reactions_parser(str_reactions: str):
-    tokens = str_reactions.split()
-
-    reactions = []
-
-    reactants, products, steps = {}, {}, 0
-    for token in tokens:
-        if token == "+":
-            continue
-        if token == "->":
-            steps = 1
-            continue
-        if token == ",":
-            steps = 2
-            continue
-        if steps == 2:
-            reactions.append(Reaction("", reactants, products, float(token)))
-            reactants, products, steps = {}, {}, 0
-            continue
-
-        molecule = token[token.find("_") + 1:]
-
-        if steps == 0:
-            reactants[molecule] = token[:token.find("_")]
-        elif steps == 1:
-            products[molecule] = token[:token.find("_")]
-
-    return reactions
+        return reaction + " (" + str(self.kinetic) + ")"
 
 
 def simulation(model_: StochasticAlgorithm, end_time: float, events: list):
@@ -87,21 +53,21 @@ def simulation(model_: StochasticAlgorithm, end_time: float, events: list):
         # perform one step of computation
         dt = model_.step()
 
-        # check if the state of molecules is not negative
-        if dt is None:
-            break
+        if dt == -1:
+            current_time = end_time
+        else:
+            current_time += dt
 
         # updating the current time and history
-        current_time += dt
         times.append(current_time)
-        hist.append(list(model_.state.values()))
+        hist.append(list(model_.get_state()))
 
         # check if the event must occur
         # the list of events is sorted by the fist element (time) and when a specific event
         # do not occur because is too early then we ignore all the rest because they have higher time values.
         for time, molecule, qnt in events:
             if time <= current_time:
-                model_.state[molecule] += qnt
+                model_.update_molecule(molecule, qnt)
                 events.pop(0)
             else:
                 break

@@ -4,44 +4,26 @@
       "name": "Reaction 1",
       "reactants": [{"l": "1","molecule": "S"},{"l": "1","molecule": "E"}],
       "products": [{"l": "1","molecule": "SE"}],
-      "kinetic" : 0.0006
+      "kinetic" : 0.006
     },
     {
       "name": "Reaction 2",
       "reactants": [{"l": "1","molecule": "SE"}],
       "products": [{"l": "1","molecule": "S"},{"l": "1","molecule": "E"}],
-      "kinetic" : 0.0005
+      "kinetic" : 0.005
     },
     {
       "name": "Reaction 3",
       "reactants": [{"l": "1","molecule": "SE"}],
       "products": [{"l": "1","molecule": "P"},{"l": "1","molecule": "E"}],
-      "kinetic" : 0.02
+      "kinetic" : 0.2
     }
   ],
   "initial_state": [
-    {"molecule": "S" ,"qnt": 200},
     {"molecule": "E" ,"qnt": 50},
+    {"molecule": "S" ,"qnt": 200},
     {"molecule": "SE","qnt": 10},
     {"molecule": "P" ,"qnt": 0}
-
   ],
-  "events": [
-    {"time": 5,  "molecule": "S","qnt": 100},
-    {"time": 10, "molecule": "S","qnt": 100},
-    {"time": 15, "molecule": "S","qnt": 100},
-    {"time": 20, "molecule": "S","qnt": 100},
-    {"time": 25, "molecule": "S","qnt": 100},
-
-    {"time": 10, "molecule": "SE","qnt": 10},
-    {"time": 20, "molecule": "SE","qnt": 15},
-    {"time": 30, "molecule": "SE","qnt": 20},
-    {"time": 40, "molecule": "SE","qnt": 30},
-
-
-    {"time": 10, "molecule": "P","qnt": -10},
-    {"time": 20, "molecule": "P","qnt": -15},
-    {"time": 30, "molecule": "P","qnt": -20},
-    {"time": 40, "molecule": "P","qnt": -30}
-  ]
+  "events": []
 }

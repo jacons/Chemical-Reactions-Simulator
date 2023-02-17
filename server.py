@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 
-from utils import reactions_parser
+from parsers import reactions_parser
 
 app = Flask(__name__)
 
