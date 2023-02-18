@@ -22,8 +22,8 @@
   "initial_state": [
     {"molecule": "E" ,"qnt": 50},
     {"molecule": "S" ,"qnt": 200},
-    {"molecule": "SE","qnt": 10},
-    {"molecule": "P" ,"qnt": 0}
+    {"molecule": "P" ,"qnt": 0},
+    {"molecule": "SE","qnt": 10}
   ],
   "events": []
 }

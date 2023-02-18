@@ -1,0 +1,28 @@
+{
+  "reactions": [
+    {
+      "name": "Reaction 1",
+      "reactants": [{"l": "2","molecule": "H_2"},{"l": "1","molecule": "O_2"}],
+      "products": [{"l": "2","molecule": "H_2O"}],
+      "kinetic" : 5
+    },
+    {
+      "name": "Reaction 2",
+      "reactants": [{"l": "2","molecule": "H_2O"}],
+      "products": [{"l": "1","molecule": "O_2"},{"l": "2","molecule": "H_2"}],
+      "kinetic" : 0.5
+    },
+    {
+      "name": "Reaction 2",
+      "reactants": [{"l": "2","molecule": "X"}],
+      "products": [{"l": "1","molecule": "A"},{"l": "2","molecule": "B"}],
+      "kinetic" : 0.5
+    }
+  ],
+  "initial_state": [
+    {"molecule": "H_2" ,"qnt": 100},
+    {"molecule": "O_2" ,"qnt": 100},
+    {"molecule": "H_2O" ,"qnt": 0}
+  ],
+  "events": []
+}
