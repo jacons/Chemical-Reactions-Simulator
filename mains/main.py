@@ -1,23 +1,26 @@
 import matplotlib.pyplot as plt
 
-from algorithms.Gillespie2 import Gillespie2
-from algorithms.Tau_leaping2 import TauLeaping2
-from parsers import matrix_parser
-from utils import simulation
+from algorithms.Gillespie import Gillespie
+from algorithms.Tau_leaping import TauLeaping
+from parsers import json_parser
+from utils import simulation, colors
 
-colors = {0: "b", 1: "g", 2: "r", 3: "c", 4: "m", 5: "y", 6: "k"}
+# qunate volte una reazion viene eseguita??
 
 if __name__ == '__main__':
 
-    state, fields, events, mol2id = matrix_parser(path='sources/source1.json')
+    reactions, init_state, events = json_parser(path='../sources/source2.json')
+    if reactions is None or init_state is None:
+        print("Runtime error in parsing phase")
 
     itr = 1
-    end_time = 100
+    end_time = 0.001
 
     hists, times = [], []
     for _ in range(itr):
+
         simulation_, times_ = simulation(
-            model_=TauLeaping2(initial_state=state.copy(), fields=fields, mol2id=mol2id, tau=0.1),
+            model_=Gillespie(reactions=reactions.copy(), initial_state=init_state.copy()),
             end_time=end_time,
             events=events.copy())
 
@@ -30,7 +33,6 @@ if __name__ == '__main__':
     plt.ylabel("N° Molecules")
 
     for sim, times_ in zip(hists, times):
-        for idx in range(state.shape[0]):
+        for idx, m in enumerate(init_state.keys()):
             plt.plot(times_, sim[:, idx], color=colors[idx], alpha=1, linewidth=0.7)
-    plt.legend()
     plt.show()

@@ -40,7 +40,7 @@ def json_parser(path: str) -> Tuple:  # 'sources/source1.json'
     return reactions, initial_state, events
 
 
-def reactions_parser(str_reactions: str):
+def reactions_parser(str_reactions: str) -> list:
     tokens = str_reactions.split()
 
     reactions = []
@@ -63,11 +63,46 @@ def reactions_parser(str_reactions: str):
         molecule = token[token.find("_") + 1:]
 
         if steps == 0:
-            reactants[molecule] = token[:token.find("_")]
+            reactants[molecule] = int(token[:token.find("_")])
         elif steps == 1:
-            products[molecule] = token[:token.find("_")]
+            products[molecule] = int(token[:token.find("_")])
 
     return reactions
+
+
+def state_parser(str_state: str) -> dict:
+    flag, molecule, result = True, None, {}
+    for token in str_state.split():
+        if token == ";":
+            continue
+        if token == ":":
+            flag = False if flag else False
+        else:
+            if flag:
+                molecule = token
+            else:
+                result[molecule] = int(token)
+                flag = True
+    return result
+
+
+# 0.1 A 1 ; 0.8 R -4
+def events_parser(str_state: str) -> list:
+    flag, time, molecule, result = 0, 0, None, []
+    for token in str_state.split():
+        if token == ";":
+            continue
+        elif flag == 0:
+            time = token
+            flag = 1
+        elif flag == 1:
+            molecule = token
+            flag = 2
+        elif flag == 2:
+            result.append((float(time), molecule, int(token)))
+            flag = 0
+    result.sort()
+    return result
 
 
 def matrix_parser(path: str):

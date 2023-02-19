@@ -1,7 +1,8 @@
 from abc import abstractmethod
-from typing import Union
 
 from numpy import array
+
+colors = {0: "b", 1: "g", 2: "r", 3: "c", 4: "m", 5: "y", 6: "k"}
 
 
 class StochasticAlgorithm:
@@ -16,6 +17,13 @@ class StochasticAlgorithm:
 
     @abstractmethod
     def update_molecule(self, molecule: str, qnt: int):
+        pass
+
+
+class OdeAlgorithm:
+
+    @abstractmethod
+    def solve(self, precision: float, end_time: float):
         pass
 
 
@@ -44,7 +52,11 @@ class Reaction:
         return reaction + " (" + str(self.kinetic) + ")"
 
 
-def simulation(model_: StochasticAlgorithm, end_time: float, events: list):
+def solveOde(model_: OdeAlgorithm, end_time: float = 100, precision: float = 0.1):
+    return model_.solve(precision, end_time)
+
+
+def simulation(model_: StochasticAlgorithm, events: list, end_time: float = 100):
     current_time: float = 0
     hist, times = [], []
 
