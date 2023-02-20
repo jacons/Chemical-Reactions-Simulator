@@ -1,0 +1,55 @@
+{
+  "reactions": [
+    {
+      "name": "Reaction 1",
+      "reactants": [{"l": "1","molecule": "S"},{"l": "1","molecule": "E"}],
+      "products": [{"l": "1","molecule": "SE"}],
+      "kinetic" : 0.006
+    },
+    {
+      "name": "Reaction 2",
+      "reactants": [{"l": "1","molecule": "SE"}],
+      "products": [{"l": "1","molecule": "S"},{"l": "1","molecule": "E"}],
+      "kinetic" : 0.005
+    },
+    {
+      "name": "Reaction 3",
+      "reactants": [{"l": "1","molecule": "SE"}],
+      "products": [{"l": "1","molecule": "P"},{"l": "1","molecule": "E"}],
+      "kinetic" : 0.2
+    },
+    {
+      "name": "Reaction 4",
+      "reactants": [{"l": "2","molecule": "X"},{"l": "1","molecule": "Y"}],
+      "products": [{"l": "2","molecule": "Z"}],
+      "kinetic" : 0.00005
+    },
+    {
+      "name": "Reaction 5",
+      "reactants": [{"l": "2","molecule": "Z"}],
+      "products": [{"l": "2","molecule": "X"},{"l": "1","molecule": "Y"}],
+      "kinetic" : 0.000005
+    },
+    {
+      "name": "Reaction 5",
+      "reactants": [{"l": "1","molecule": "Z"},{"l": "1","molecule": "K"}],
+      "products": [{"l": "2","molecule": "W"}],
+      "kinetic" : 0.005
+    }
+  ],
+  "initial_state": [
+    {"molecule": "E"  ,"qnt": 50},
+    {"molecule": "S"  ,"qnt": 200},
+    {"molecule": "P"  ,"qnt": 0},
+    {"molecule": "SE" ,"qnt": 10},
+    {"molecule": "X"  ,"qnt": 100},
+    {"molecule": "Y"  ,"qnt": 100},
+    {"molecule": "Z"  ,"qnt": 0},
+    {"molecule": "K"  ,"qnt": 0},
+    {"molecule": "W"  ,"qnt": 0}
+  ],
+  "events": [
+    {"time": 30, "molecule": "K","qnt": 100},
+    {"time": 60, "molecule": "Z","qnt": 100}
+  ]
+}

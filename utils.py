@@ -1,6 +1,7 @@
 from abc import abstractmethod
+from typing import Tuple
 
-from numpy import array
+from numpy import array, ma
 
 colors = {0: "b", 1: "g", 2: "r", 3: "c", 4: "m", 5: "y", 6: "k"}
 
@@ -85,3 +86,19 @@ def simulation(model_: StochasticAlgorithm, events: list, end_time: float = 100)
                 break
 
     return array(hist), times
+
+
+def avg_simulations(list_simulations: list, list_times: list) -> Tuple:
+    n_molecules = list_simulations[0].shape[1]
+    lens = [len(i) for i in list_simulations]
+
+    simulations = ma.empty((max(lens), len(list_simulations), n_molecules))
+    times = ma.empty((max(lens), len(list_times)))
+
+    simulations.mask, times.mask = True, True
+
+    for idx, (s, t) in enumerate(zip(list_simulations, list_times)):
+        simulations[:len(s), idx] = s
+        times[:len(t), idx] = t
+
+    return simulations.mean(axis=1), times.mean(axis=-1)

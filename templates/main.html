@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>NER for Medical records</title>
+        <title>Stochastic Simulator of Chemical Reactions</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -55,6 +55,15 @@
             font-weight: bold;
             box-shadow: 2px 2px  gray;
         }
+        img  {
+            border-radius: 10px;
+            border:1px solid black;
+            width:100%;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding:5px;
+        }
         </style>
     </head>
     <body>
@@ -73,13 +82,13 @@
                 </div>
                 <div class="row">
                 <div class="col-sm">
-                  <textarea name="reactions" placeholder="Insert here chemical reactions">{% print(cache["reactions"]) %}</textarea>
+                  <textarea name="reactions" placeholder="Insert here chemical reactions">{{ cache["reactions"] }}</textarea>
                 </div>
                 <div class="col-sm">
-                  <textarea name="events" placeholder="Insert here events">{% print(cache["events"]) %}</textarea>
+                  <textarea name="events" placeholder="Insert here events">{{ cache["events"] }}</textarea>
                 </div>
                 <div class="col-sm">
-                  <textarea name="init_state" placeholder="Insert here the initial states">{% print(cache["init_state"]) %}</textarea>
+                  <textarea name="init_state" placeholder="Insert here the initial states">{{ cache["init_state"] }}</textarea>
                 </div>
               </div>
             </div>
@@ -93,17 +102,17 @@
                 <div class="row">
                     <div class="col-sm options">
                         <i>Algorithms:</i><br>
-                        <input type="radio" name="algo" value="Gillespie" /> Gillespie<br>
+                        <input type="radio" name="algo" value="Gillespie" checked/> Gillespie<br>
                         <input type="radio" name="algo" value="TauLeaping"/> Tau leaping<br>
                         <input type="radio" name="algo" value="ode"/> Differential equations<br>
                     </div>
                     <div class="col-sm options">
                         <i>Duration (s):</i><br>
-                        <input type="text" name="end_time" placeholder="Duration of simulation"><br>
+                        <input type="text" name="end_time" value="{{ cache['end_time'] }}" placeholder="Duration of simulation"><br>
                         <i>Simulations:</i><br>
-                        <input type="text" name="itr" placeholder="Number of simulation"><br>
+                        <input type="text" name="itr" value="{{ cache['itr'] }}" placeholder="Number of simulation"><br>
                         <i>Precision:</i><br>
-                        <input type="text" name="precision" placeholder="Precision"><br>
+                        <input type="text" name="precision" value="{{ cache['precision']  }}" placeholder="Precision"><br>
                     </div>
                 </div>
                 <div class="row">
@@ -114,7 +123,23 @@
             </div>
 
             <div class="container containerA">
-                <img src={{ url }} alt="Chart" >
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="/static/simulation.png" alt="Chart" >
+                    </div>
+                    <div class="col-sm">
+                        {% if final_state is not none %}
+                        <table>
+                            <tr><td><b>Molecule</b></td><td><b>N° Molecules</b></td></tr>
+                            {% for m,v in final_state.items() %}
+                            <tr>
+                                <td>{{m}}</td><td>{{v}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </form>
     </body>

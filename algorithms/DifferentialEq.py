@@ -22,7 +22,7 @@ class DifferentialEq(OdeAlgorithm):
                         [v for v in self.initial_state.values()],
                         time)
 
-        return result, time
+        return [result], [time]
 
     def getLambda(self):
         molecules = list(self.initial_state.keys())
