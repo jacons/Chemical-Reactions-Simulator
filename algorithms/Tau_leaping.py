@@ -7,6 +7,9 @@ from utils import StochasticAlgorithm
 
 
 class TauLeaping(StochasticAlgorithm):
+    """
+    Implementation with Tau Leaping method using the dictionaries.
+    """
     def __init__(self, reactions: list, initial_state: dict, tau: float):
 
         self.reactions: list = reactions
@@ -39,13 +42,16 @@ class TauLeaping(StochasticAlgorithm):
         if a.sum() == 0:
             return -1
 
+        # predict the number of reaction that may occur in this tau-interval
+        # n_reactions is an array where each element represent the number of time that the reaction i
+        # "it is happened"
         n_reactions: ndarray = poisson(a * self.tau)
 
         for idx, num in enumerate(n_reactions):
 
             react = self.reactions[idx]
 
-            # we fix the number of possible reaction to avoid negative numbers
+            # We fix the number of possible reaction to avoid negative numbers
             d1, d2 = react.reactants, self.state
             available = {k: int(d2[k] / d1[k]) for k in d1.keys() & d2}.values()
             # we take the minimum between: the num of reactions chosen from poisson distribution

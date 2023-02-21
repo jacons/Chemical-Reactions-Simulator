@@ -1,12 +1,16 @@
 import numpy as np
-from matplotlib import pyplot as plt
 from scipy.integrate import odeint
 
-from parsers import json_parser
 from utils import OdeAlgorithm
 
 
 class DifferentialEq(OdeAlgorithm):
+    """
+    Implementation with Differential Equation. This implementation doesn't handle the events and iterations
+    since is not a stochastic approach. The implementation takes as input a list of chemical reactions and
+    an initial state (dictionary). Then it builds a function to pass to "odeint" function. Provide an exact solution.
+    """
+
     def __init__(self, reactions: list, initial_state: dict):
         self.reactions: list = reactions
         self.initial_state: dict = initial_state
@@ -25,15 +29,21 @@ class DifferentialEq(OdeAlgorithm):
         return [result], [time]
 
     def getLambda(self):
+        """
+        Builds from dictionary the lambda function. It creates a "string version of lambda" then
+        it transform the string into a real function by "eval"
+        :return:
+        """
         molecules = list(self.initial_state.keys())
         m2a = {m: "Z[" + str(idx) + "]" for idx, m in enumerate(self.initial_state.keys())}
 
         str_lambda = "lambda Z,t : ["
         for m in molecules[:-1]:
-            str_lambda += self.getOde(m, m2a) + ","
+            str_lambda += self.getOde(m, m2a) + ","  # foreach molecules concatenate differential equation
         str_lambda += self.getOde(molecules[-1], m2a) + "]"
 
-        return eval(str_lambda)
+        # str_lambda is a string
+        return eval(str_lambda)  # real lambda function
 
     def getOde(self, molecule: str, m2a: dict) -> str:
         ode_ = ""

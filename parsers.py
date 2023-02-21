@@ -41,6 +41,16 @@ def json_parser(path: str) -> Tuple:  # 'sources/source1.json'
 
 
 def reactions_parser(str_reactions: str) -> list:
+    """
+    Used mostly in the web graphical interface, takes inputs as
+    1_A + 2_B -> 3_C , 0.4 ;
+    1_D + 2_E -> 3_C + 5_F , 0.4 ;
+    where the numbers before the molecules identify the number of molecules involved into reaction.
+
+    The method returns a list of reactions (list of Reaction class)
+    """
+
+    # tokenize each word by space
     tokens = str_reactions.split()
 
     reactions = []
@@ -71,6 +81,14 @@ def reactions_parser(str_reactions: str) -> list:
 
 
 def state_parser(str_state: str) -> dict:
+    """
+    Used mostly in the web graphical interface, takes inputs as
+    A : 10 ;
+    B : 50 ; ecc,,
+    where the numbers before the molecules identify the number of molecules involved into reaction.
+
+    The method returns a dictionary ( molecule -> quantities )
+    """
     flag, molecule, result = True, None, {}
     for token in str_state.split():
         if token == ";":
@@ -86,8 +104,16 @@ def state_parser(str_state: str) -> dict:
     return result
 
 
-# 0.1 A 1 ; 0.8 R -4
 def events_parser(str_state: str) -> list:
+    """
+    Used mostly in the web graphical interface, takes inputs as
+    0.1 A 4 ;
+    0.50 B -56 ;
+    Each line identify an event where : the fist number is the time when the event (MORE OR LESS)
+    could happen , the letter identify the molecule involved and the last values the quantity to change
+
+    The method returns a list of tuple sorted by time [ (time,mol,qnt),(time,mol,qnt) ...]
+    """
     flag, time, molecule, result = 0, 0, None, []
     for token in str_state.split():
         if token == ";":
@@ -106,6 +132,16 @@ def events_parser(str_state: str) -> list:
 
 
 def matrix_parser(path: str):
+    """
+    Takes the path of json file and parse it into:
+        - initial state, array(# molecules)
+        - kinetic , array(# reaction)
+        - reactants , matrix (# reaction, # molecules)
+        - products , matrix (# reaction, # molecules)
+        - events, list of tuple (as before)
+        - dictionary that map the molecule to index (of matrices)
+
+    """
     with open(path) as f:
         source = json.loads(f.read())
 

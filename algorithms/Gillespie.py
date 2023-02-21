@@ -3,11 +3,15 @@ import random
 
 from numpy import zeros, arange
 from numpy.random import choice
+from scipy.special import binom
 
 from utils import StochasticAlgorithm
 
 
 class Gillespie(StochasticAlgorithm):
+    """
+    Implementation with Gillespie method using the dictionaries.
+    """
     def __init__(self, reactions: list, initial_state: dict):
 
         self.reactions: list = reactions
@@ -31,7 +35,7 @@ class Gillespie(StochasticAlgorithm):
 
             for r, l in react.reactants.items():
                 # Oss if the molecule quantities is 0 then _a become 0
-                _a *= math.comb(self.state[r], l)
+                _a *= binom(self.state[r], l)
 
             a[idx] = _a
             a_0 += _a
@@ -48,7 +52,7 @@ class Gillespie(StochasticAlgorithm):
         # select the reaction to perform
         react = self.reactions[choice(arange(0, n), p=a)]
 
-        # update the state with reaction chosen
+        # update the state with the reaction chosen
         for r, l in react.reactants.items():
             self.state[r] -= l
 

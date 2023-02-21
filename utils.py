@@ -3,8 +3,6 @@ from typing import Tuple
 
 from numpy import array, ma
 
-colors = {0: "b", 1: "g", 2: "r", 3: "c", 4: "m", 5: "y", 6: "k"}
-
 
 class StochasticAlgorithm:
 

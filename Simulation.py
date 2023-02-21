@@ -51,9 +51,9 @@ def getSimulationA(reactions: list, init_state: dict, events: list, algorithm: s
             times.append(times_)
 
     elif algorithm == "ode":
-
+        itr = 1
         hists, times = solveOde(
-            model_=DifferentialEq(reactions=reactions, initial_state=init_state),
+            model_=DifferentialEq(reactions=reactions.copy(), initial_state=init_state.copy()),
             end_time=end_time,
             precision=precision)
     if figure:
