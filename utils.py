@@ -55,7 +55,7 @@ def solveOde(model_: OdeAlgorithm, end_time: float = 100, precision: float = 0.1
     return model_.solve(precision, end_time)
 
 
-def simulation(model_: StochasticAlgorithm, events: list, end_time: float = 100):
+def simulation(model_: StochasticAlgorithm, events: list, end_time: float):
     current_time: float = 0
     hist, times = [], []
 
@@ -87,6 +87,9 @@ def simulation(model_: StochasticAlgorithm, events: list, end_time: float = 100)
 
 
 def avg_simulations(list_simulations: list, list_times: list) -> Tuple:
+    """
+    Takes a list of simulation and return a sort of means
+    """
     n_molecules = list_simulations[0].shape[1]
     lens = [len(i) for i in list_simulations]
 

@@ -153,7 +153,6 @@ def matrix_parser(path: str):
 
     # mapping molecules
     mol2id = {item["molecule"]: idx for idx, item in enumerate(source["initial_state"])}
-    id2mol = {idx: item["molecule"] for idx, item in enumerate(source["initial_state"])}
 
     # state
     state = zeros(n_molecules)
