@@ -1,11 +1,11 @@
 import time
 
 from Simulation import getSimulationA, getSimulationB
-from parsers import json_parser, matrix_parser
+from parsers import dicts_parser, matrix_parser
 
 
 def executions(path='../sources/source1.json', itrs=range(10, 100, 5), end_time=100):
-    reactions, init_state, events = json_parser(path=path)
+    reactions, init_state, events = dicts_parser(path=path)
     state, fields, events, mol2id = matrix_parser(path=path)
 
     for itr in itrs:
@@ -45,7 +45,7 @@ def executions(path='../sources/source1.json', itrs=range(10, 100, 5), end_time=
 def run_test(path='../sources/source1.json'):
     itr = 10
     end_time = 40
-    reactions, init_state, events = json_parser(path=path)
+    reactions, init_state, events = dicts_parser(path=path)
     state, fields, events, mol2id = matrix_parser(path=path)
 
     # --------------------

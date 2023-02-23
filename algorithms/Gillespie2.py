@@ -13,8 +13,8 @@ class Gillespie2(StochasticAlgorithm):
     """
     Implementation with Gillespie method using matrices.
     """
-    def __init__(self, initial_state: ndarray, fields: Tuple, mol2id: dict):
 
+    def __init__(self, initial_state: ndarray, fields: Tuple, mol2id: dict):
         self.state: ndarray = initial_state
 
         # since the order of molecules present into matrices is important we need a dictionary
@@ -39,26 +39,23 @@ class Gillespie2(StochasticAlgorithm):
         return
 
     def step(self) -> float:
-        """
-        Provide the same solution but the code is more compact and a slightly harder to understand
-        :return:
-        """
         n = self.kinetic.shape[0]
 
         # perform propensities (instantaneous rate of each reaction)
         a = vectorize(binom)(self.state, self.reactants).prod(axis=1) * self.kinetic
-        a_0 = a.sum()
 
-        # if all propensities are zero means that there are no reaction to execute
+        a_0 = a.sum()
+        # if all propensities are zero means that there are
+        # no reaction to execute
         if a_0 == 0:
             return -1
 
         a /= a_0
-
         # time event occurs
         dt = math.log(1 / random.uniform(0, 1)) / a_0
 
         # update num of molecules based on reaction occurred
-        self.state += self.update_weight[choice(arange(0, n), p=a), :]
+        c = choice(arange(0, n), p=a)
+        self.state += self.products[c, :] - self.reactants[c, :]
 
         return dt  # tau

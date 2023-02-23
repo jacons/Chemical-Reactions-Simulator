@@ -7,7 +7,7 @@ from algorithms.Gillespie import Gillespie
 from algorithms.Gillespie2 import Gillespie2
 from algorithms.Tau_leaping import TauLeaping
 from algorithms.Tau_leaping2 import TauLeaping2
-from parsers import json_parser, matrix_parser
+from parsers import dicts_parser, matrix_parser
 from utils import simulation, solveOde, avg_simulations
 
 matplotlib.use('Agg')
@@ -29,7 +29,7 @@ def getSimulation_from_path(path: str, algorithm: str, itr: int, end_time: float
     if algorithm == "Gillespie" or algorithm == "TauLeaping" or algorithm == "ode":
 
         # Dictionary based algorithms
-        reactions, init_state, events = json_parser(path=path)
+        reactions, init_state, events = dicts_parser(path=path)
         return getSimulationA(reactions, init_state, events, algorithm, itr, end_time, precision)
 
     elif algorithm == "Gillespie2" or algorithm == "TauLeaping2":
@@ -84,7 +84,7 @@ def getSimulationA(reactions: list, init_state: dict, events: list, algorithm: s
 
     if figure:
 
-        # plot (in background all simulation)
+        # plot (in background all simulations)
         for sim, times_ in zip(hists, times):
             plt.plot(times_, sim, color="gray", alpha=0.1, linewidth=1)
 

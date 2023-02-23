@@ -6,7 +6,7 @@ from numpy import zeros
 from utils import Reaction
 
 
-def json_parser(path: str) -> Tuple:  # 'sources/source1.json'
+def dicts_parser(path: str) -> Tuple:  # 'sources/source1.json'
     """
     Takes the path of json file and parse it into:
     1) list of reactions, list of events and initial state ( number of molecules for each element involved)

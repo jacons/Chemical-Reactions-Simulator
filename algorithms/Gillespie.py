@@ -32,11 +32,9 @@ class Gillespie(StochasticAlgorithm):
         # calculate the propensities
         for idx, react in enumerate(self.reactions):
             _a = react.kinetic
-
             for r, l in react.reactants.items():
                 # Oss if the molecule quantities is 0 then _a become 0
                 _a *= binom(self.state[r], l)
-
             a[idx] = _a
             a_0 += _a
 
@@ -45,7 +43,6 @@ class Gillespie(StochasticAlgorithm):
             return -1
 
         a /= a_0
-
         # time event occurs
         dt = math.log(1 / random.uniform(0, 1)) / a_0
 
@@ -55,7 +52,6 @@ class Gillespie(StochasticAlgorithm):
         # update the state with the reaction chosen
         for r, l in react.reactants.items():
             self.state[r] -= l
-
         for r, l in react.products.items():
             self.state[r] += l
 

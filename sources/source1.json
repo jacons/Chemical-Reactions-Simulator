@@ -25,5 +25,8 @@
     {"molecule": "P" ,"qnt": 0},
     {"molecule": "SE","qnt": 10}
   ],
-  "events": []
+  "events": [
+    {"time": 20, "molecule": "S","qnt":  10},
+    {"time": 30, "molecule": "P","qnt": -10}
+  ]
 }
