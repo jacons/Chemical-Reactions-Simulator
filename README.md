@@ -18,3 +18,4 @@ The source code should be modular: it should be easy to add a new  simulation al
 
 ---
 
+[Presentation](https://github.com/jacons/Chemical-Reactions-Simulator/files/10812198/presentation.pdf)
